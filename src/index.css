@@ -1,14 +1,15 @@
 .container {
   width: 100%;
   max-width: 1000px;
+  margin: 0 auto;
 }
 
 .header__container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   padding: 15px 0;
-  margin: 0 auto;
 }
 
 .header {
@@ -33,9 +34,33 @@
   border: none;
   border-radius: 10%;
   cursor: pointer;
+  color: black;
 }
 
 .title {
   margin-block-start: 0;
   margin-block-end: 0;
+}
+.main__container {
+  margin-top: 20px;
+}
+.card {
+  background-color: #e6e8de;
+  min-width: 320px;
+  width: 50%;
+  margin: 0 auto 10px;
+  display: flex;
+  border-radius: 20px;
+  box-shadow: 0px 2.98256px 7.4564px rgba(0, 0, 0, 0.1);
+}
+.text {
+  margin-left: 20px;
+}
+.img {
+  max-width: 200px;
+  border-radius: 20px;
+}
+.card__button {
+  text-decoration: none;
+  padding: 10px;
 }
