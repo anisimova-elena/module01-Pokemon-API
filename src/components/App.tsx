@@ -1,18 +1,24 @@
 import { useState } from "react";
-import PokemonList from "./PokemonList";
+import Header from "./Header";
+import Results from "./Results";
 
 export default function App() {
-  const [state, setState] = useState({
-    isLoaded: false,
-    query: localStorage.getItem("query"),
-  });
+  const [query, setQuery] = useState(localStorage.getItem("query") || "");
 
-  if (!state.query) {
-    return (
-      <main className="container main__container">
-        <PokemonList />
-      </main>
-    );
+  function search(event: React.FormEvent<HTMLFormElement>): void {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form as HTMLFormElement);
+    localStorage.setItem("query", formData.get("query") as string);
+    setQuery(formData.get("query") as string);
   }
-  return <>Идёт загрузка результата</>;
+
+  return (
+    <>
+      <Header search={search} defaultQuery={query} />
+      <div className="container main__container">
+        <Results query={query} />
+      </div>
+    </>
+  );
 }
