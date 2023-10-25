@@ -1,36 +1,45 @@
-import { useState } from "react";
+import React from "react";
 import logo from "../assets/pokeapi_logo.png";
 
 interface Props {
-  search: (event: React.FormEvent<HTMLFormElement>) => void;
   defaultQuery: string;
+  search: (event: React.FormEvent<HTMLFormElement>) => void;
 }
 
-export default function Header(props: Props) {
-  const search = props.search;
-  const [inputValue, setInputValue] = useState(props.defaultQuery);
+interface State {
+  inputValue: string;
+}
 
-  function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
-    setInputValue(e.target?.value.trim().toLowerCase());
+export default class Header extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      inputValue: this.props.defaultQuery,
+    };
   }
 
-  return (
-    <header className="header">
-      <div className="container header__container">
-        <img src={logo} alt="logo" className="logo" />
-        <form action="get" onSubmit={(e) => search(e)}>
-          <h3 className="title">Search Pokemon</h3>
-          <input
-            name="query"
-            className="input"
-            value={inputValue}
-            onChange={(e) => handleChange(e)}
-          />
-          <button className="button button__submit" type="submit">
-            Search
-          </button>
-        </form>
-      </div>
-    </header>
-  );
+  handleChange(e: React.ChangeEvent<HTMLInputElement>) {
+    this.setState({ inputValue: e.target?.value.trim().toLowerCase() });
+  }
+  render() {
+    return (
+      <header className="header">
+        <div className="container header__container">
+          <img src={logo} alt="logo" className="logo" />
+          <form action="get" onSubmit={(e) => this.props.search(e)}>
+            <h3 className="title">Search Pokemon</h3>
+            <input
+              name="query"
+              className="input"
+              value={this.state.inputValue}
+              onChange={(e) => this.handleChange(e)}
+            />
+            <button className="button button__submit" type="submit">
+              Search
+            </button>
+          </form>
+        </div>
+      </header>
+    );
+  }
 }

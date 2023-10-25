@@ -1,24 +1,30 @@
-import { useState } from "react";
+import React from "react";
 import Header from "./Header";
 import Results from "./Results";
 
-export default function App() {
-  const [query, setQuery] = useState(localStorage.getItem("query") || "");
+export default class App extends React.Component {
+  state = {
+    query: localStorage.getItem("query") || "",
+  };
 
-  function search(event: React.FormEvent<HTMLFormElement>): void {
+  search = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target;
     const formData = new FormData(form as HTMLFormElement);
     localStorage.setItem("query", formData.get("query") as string);
-    setQuery(formData.get("query") as string);
-  }
+    this.setState({
+      query: formData.get("query"),
+    });
+  };
 
-  return (
-    <>
-      <Header search={search} defaultQuery={query} />
-      <div className="container main__container">
-        <Results query={query} />
-      </div>
-    </>
-  );
+  render() {
+    return (
+      <>
+        <Header search={this.search} defaultQuery={this.state.query} />
+        <div className="container main__container">
+          <Results query={this.state.query} />
+        </div>
+      </>
+    );
+  }
 }

@@ -1,6 +1,7 @@
-import { useState } from "react";
+import React from "react";
 import PokemonList from "./PokemonList";
 import Pokemon from "./PokemonItem";
+import { IPokemon } from "../interfaces/Pokemon";
 
 enum loadState {
   Pending,
@@ -11,27 +12,40 @@ enum loadState {
 interface Props {
   query: string;
 }
+interface State {
+  searchState: loadState;
+  pokemon: IPokemon;
+}
+export default class Results extends React.Component<Props, State> {
+  constructor(props: Props) {
+    super(props);
+    this.state = {
+      searchState: loadState.Pending,
+      pokemon: {} as IPokemon,
+    };
+  }
 
-export default function Results(props: Props) {
-  const [pokemon, setPokemon] = useState();
-  const [searchState, setSearchState] = useState(loadState.Pending);
-
-
-  function getPokemon(name: string) {
+  getPokemon(name: string) {
     fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
       .then((response) => {
         if (!response.ok) {
-          setSearchState(loadState.BadRequest);
+          this.setState({
+            searchState: loadState.BadRequest,
+          });
           throw Error(response.statusText);
         }
         return response.json();
       })
       .then((json) => {
         if (json) {
-          setPokemon(json);
-          setSearchState(loadState.Success);
+          this.setState({
+            searchState: loadState.Success,
+            pokemon: json,
+          });
         } else {
-          setSearchState(loadState.BadRequest);
+          this.setState({
+            searchState: loadState.BadRequest,
+          });
         }
       })
       .catch(function (err) {
@@ -39,21 +53,34 @@ export default function Results(props: Props) {
       });
   }
 
-  if (!props.query) {
-    return (
-      <main className="container main__container">
-        <PokemonList />
-      </main>
-    );
+  componentDidUpdate(prevProps: Props) {
+    if (this.props.query !== prevProps.query ) {
+      this.getPokemon(this.props.query);
+      this.setState({
+        searchState: loadState.Pending,
+      });
+    }
   }
-  getPokemon(props.query);
-  if (searchState === loadState.Pending) {
-    return <>Идёт загрузка</>;
-  }
-  if (searchState == loadState.Success && pokemon !== undefined) {
-    return <Pokemon pokemon={pokemon} />;
-  }
-  if (searchState == loadState.BadRequest) {
-    return <>Неверный запрос</>;
+
+  render() {
+    if (!this.props.query) {
+      return (
+        <main className="container main__container">
+          <PokemonList />
+        </main>
+      );
+    }
+    if (this.state.searchState === loadState.Pending) {
+      return <>Идёт загрузка</>;
+    }
+    if (
+      this.state.searchState == loadState.Success &&
+      this.state.pokemon !== undefined
+    ) {
+      return <Pokemon pokemon={this.state.pokemon} />;
+    }
+    if (this.state.searchState == loadState.BadRequest) {
+      return <>Неверный запрос</>;
+    }
   }
 }
