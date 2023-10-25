@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "lint": "npx eslint .",
+    "lint": "npx eslint --fix .",
     "preview": "vite preview",
     "format:fix": "npx prettier . --write",
     "prepare": "husky install",
