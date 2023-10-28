@@ -64,3 +64,9 @@
   text-decoration: none;
   padding: 10px;
 }
+.loader {
+  width: 200px;
+  height: 200px;
+  margin: 0 auto;
+  text-align: center;
+}

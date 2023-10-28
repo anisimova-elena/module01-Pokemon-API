@@ -2,6 +2,7 @@ import React from "react";
 import PokemonList from "./PokemonList";
 import Pokemon from "./PokemonItem";
 import { IPokemon } from "../interfaces/Pokemon";
+import loader from "../assets/loader.gif";
 
 enum loadState {
   Pending,
@@ -15,6 +16,8 @@ interface Props {
 interface State {
   searchState: loadState;
   pokemon: IPokemon;
+  allPokemons: IPokemon[];
+  showAllPokemons: boolean;
 }
 export default class Results extends React.Component<Props, State> {
   constructor(props: Props) {
@@ -22,11 +25,37 @@ export default class Results extends React.Component<Props, State> {
     this.state = {
       searchState: loadState.Pending,
       pokemon: {} as IPokemon,
+      allPokemons: [] as IPokemon[],
+      showAllPokemons: this.props.query ? false : true,
     };
   }
 
-  getPokemon(name: string) {
-    fetch(`https://pokeapi.co/api/v2/pokemon/${name}`)
+  fetchAllPokemons() {
+    this.setState({
+      searchState: loadState.Pending,
+    });
+    fetch("https://pokeapi.co/api/v2/pokemon?limit=10")
+      .then((response) => {
+        return response.json();
+      })
+      .then((json) => {
+        this.setState({
+          searchState: loadState.Success,
+          allPokemons: json.results,
+          showAllPokemons: true,
+        });
+      })
+      .catch(function (err) {
+        console.log(err);
+      });
+  }
+
+  getPokemon(query: string) {
+    console.log("Pending, query:");
+    this.setState({
+      searchState: loadState.Pending,
+    });
+    fetch(`https://pokeapi.co/api/v2/pokemon/${query}`)
       .then((response) => {
         if (!response.ok) {
           this.setState({
@@ -41,6 +70,7 @@ export default class Results extends React.Component<Props, State> {
           this.setState({
             searchState: loadState.Success,
             pokemon: json,
+            showAllPokemons: false,
           });
         } else {
           this.setState({
@@ -53,34 +83,49 @@ export default class Results extends React.Component<Props, State> {
       });
   }
 
-  componentDidUpdate(prevProps: Props) {
-    if (this.props.query !== prevProps.query ) {
+  componentDidMount(): void {
+    if (this.state.showAllPokemons) {
+      this.fetchAllPokemons();
+    } else {
       this.getPokemon(this.props.query);
-      this.setState({
-        searchState: loadState.Pending,
-      });
+    }
+  }
+
+  componentDidUpdate(prevProps: Props) {
+    console.log("componentDidUpdate");
+    console.log(prevProps);
+
+    if (prevProps.query !== this.props.query) {
+      if (!this.props.query) {
+        if (this.state.allPokemons) {
+          this.setState({
+            showAllPokemons: true,
+          });
+        } else this.fetchAllPokemons();
+      } else {
+        this.getPokemon(this.props.query);
+      }
     }
   }
 
   render() {
-    if (!this.props.query) {
-      return (
-        <main className="container main__container">
-          <PokemonList />
-        </main>
-      );
-    }
     if (this.state.searchState === loadState.Pending) {
-      return <>Идёт загрузка</>;
-    }
-    if (
-      this.state.searchState == loadState.Success &&
-      this.state.pokemon !== undefined
-    ) {
-      return <Pokemon pokemon={this.state.pokemon} />;
+      return (
+        <div className="loader">
+          <img src={loader} alt="" />
+        </div>
+      );
     }
     if (this.state.searchState == loadState.BadRequest) {
       return <>Неверный запрос</>;
+    }
+    if (this.state.searchState == loadState.Success) {
+      if (this.state.showAllPokemons) {
+        if (this.state.allPokemons) {
+          return <PokemonList pokemons={this.state.allPokemons} />;
+        }
+      }
+      return <Pokemon pokemon={this.state.pokemon} />;
     }
   }
 }
