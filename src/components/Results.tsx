@@ -60,7 +60,7 @@ export default class Results extends React.Component<Props, State> {
           this.setState({
             searchState: loadState.BadRequest,
           });
-          throw Error(response.statusText);
+          throw new Error(response.statusText);
         }
         return response.json();
       })
@@ -76,9 +76,6 @@ export default class Results extends React.Component<Props, State> {
             searchState: loadState.BadRequest,
           });
         }
-      })
-      .catch(function (err) {
-        throw new Error(err);
       });
   }
 
