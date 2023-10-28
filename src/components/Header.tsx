@@ -1,5 +1,5 @@
-import React from "react";
-import logo from "../assets/pokeapi_logo.png";
+import React from 'react';
+import logo from '../assets/pokeapi_logo.png';
 
 interface Props {
   defaultQuery: string;

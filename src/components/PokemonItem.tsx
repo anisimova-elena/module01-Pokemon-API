@@ -1,5 +1,5 @@
-import React from "react";
-import { IPokemon } from "../interfaces/Pokemon";
+import React from 'react';
+import { IPokemon } from '../interfaces/Pokemon';
 
 interface Props {
   pokemon: IPokemon;
@@ -26,19 +26,19 @@ export default class Pokemon extends React.Component<Props> {
             Abilities:
             {this.pokemon.abilities?.length
               ? this.pokemon.abilities.length
-              : "none"}
+              : 'none'}
           </p>
           <p>
             Forms:
             {this.pokemon.forms?.length
               ? this.pokemon.abilities.length
-              : "none"}
+              : 'none'}
           </p>
           <p>
             Moves:
             {this.pokemon.moves?.length
               ? this.pokemon.abilities.length
-              : "none"}
+              : 'none'}
           </p>
         </div>
       </div>

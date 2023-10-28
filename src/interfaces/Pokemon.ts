@@ -1,4 +1,4 @@
-import { NamedAPIResource } from "./NamedAPIResource";
+import { NamedAPIResource } from './NamedAPIResource';
 
 export type IPokemon = {
   abilities: PokemonAbility[];
@@ -62,7 +62,7 @@ export type IPokemon = {
     front_shiny_female: string | null;
     other?: {
       dream_world: DreamWorldSprites;
-      "official-artwork": OfficialArtworkSprites;
+      'official-artwork': OfficialArtworkSprites;
       home: HomeSprites;
     };
     version: VersionSprites;
@@ -106,18 +106,18 @@ type HomeSprites = {
 };
 
 type VersionSprites = {
-  "generation-i": GenerationISprites;
-  "generation-ii": GenerationIISprites;
-  "generation-iii": GenerationIIISprites;
-  "generation-iv": GenerationIVSprites;
-  "generation-v": GenerationVSprites;
-  "generation-vi": GenerationVISprites;
-  "generation-vii": GenerationVIISprites;
-  "generation-viii": GenerationVIIISprites;
+  'generation-i': GenerationISprites;
+  'generation-ii': GenerationIISprites;
+  'generation-iii': GenerationIIISprites;
+  'generation-iv': GenerationIVSprites;
+  'generation-v': GenerationVSprites;
+  'generation-vi': GenerationVISprites;
+  'generation-vii': GenerationVIISprites;
+  'generation-viii': GenerationVIIISprites;
 };
 
 export interface GenerationISprites {
-  "red-blue": RedBlue;
+  'red-blue': RedBlue;
   yellow: Yellow;
 }
 
@@ -172,8 +172,8 @@ interface Silver {
 
 export interface GenerationIIISprites {
   emerald: Emerald;
-  "firered-leafgreen": FireredLeafgreen;
-  "ruby-sapphire": RubySapphire;
+  'firered-leafgreen': FireredLeafgreen;
+  'ruby-sapphire': RubySapphire;
 }
 
 export interface Emerald {
@@ -196,8 +196,8 @@ export interface RubySapphire {
 }
 
 export interface GenerationIVSprites {
-  "diamond-pearl": DiamondPearl;
-  "heartgold-soulsilver": HeartgoldSoulsilver;
+  'diamond-pearl': DiamondPearl;
+  'heartgold-soulsilver': HeartgoldSoulsilver;
   platinum: Platinum;
 }
 
@@ -235,7 +235,7 @@ export interface Platinum {
 }
 
 export interface GenerationVSprites {
-  "black-white": BlackWhite;
+  'black-white': BlackWhite;
 }
 
 export interface Animated {
@@ -262,8 +262,8 @@ export interface BlackWhite {
 }
 
 export interface GenerationVISprites {
-  "omegaruby-alphasapphire": OmegarubyAlphasapphire;
-  "x-y": XY;
+  'omegaruby-alphasapphire': OmegarubyAlphasapphire;
+  'x-y': XY;
 }
 
 export interface OmegarubyAlphasapphire {
@@ -282,7 +282,7 @@ export interface XY {
 
 export interface GenerationVIISprites {
   icons: GenerationViiIcons;
-  "ultra-sun-ultra-moon": UltraSunUltraMoon;
+  'ultra-sun-ultra-moon': UltraSunUltraMoon;
 }
 
 export interface GenerationViiIcons {

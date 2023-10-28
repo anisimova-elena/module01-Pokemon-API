@@ -1,8 +1,8 @@
-import React from "react";
-import PokemonList from "./PokemonList";
-import Pokemon from "./PokemonItem";
-import { IPokemon } from "../interfaces/Pokemon";
-import loader from "../assets/loader.gif";
+import React from 'react';
+import PokemonList from './PokemonList';
+import Pokemon from './PokemonItem';
+import { IPokemon } from '../interfaces/Pokemon';
+import loader from '../assets/loader.gif';
 
 enum loadState {
   Pending,
@@ -34,7 +34,7 @@ export default class Results extends React.Component<Props, State> {
     this.setState({
       searchState: loadState.Pending,
     });
-    fetch("https://pokeapi.co/api/v2/pokemon?limit=10")
+    fetch('https://pokeapi.co/api/v2/pokemon?limit=10')
       .then((response) => {
         return response.json();
       })
@@ -46,12 +46,11 @@ export default class Results extends React.Component<Props, State> {
         });
       })
       .catch(function (err) {
-        console.log(err);
+        throw new Error(err);
       });
   }
 
   getPokemon(query: string) {
-    console.log("Pending, query:");
     this.setState({
       searchState: loadState.Pending,
     });
@@ -79,7 +78,7 @@ export default class Results extends React.Component<Props, State> {
         }
       })
       .catch(function (err) {
-        console.log(err);
+        throw new Error(err);
       });
   }
 
@@ -92,9 +91,6 @@ export default class Results extends React.Component<Props, State> {
   }
 
   componentDidUpdate(prevProps: Props) {
-    console.log("componentDidUpdate");
-    console.log(prevProps);
-
     if (prevProps.query !== this.props.query) {
       if (!this.props.query) {
         if (this.state.allPokemons) {

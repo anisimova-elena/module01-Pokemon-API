@@ -1,19 +1,19 @@
-import React from "react";
-import Header from "./Header";
-import Results from "./Results";
+import React from 'react';
+import Header from './Header';
+import Results from './Results';
 
 export default class App extends React.Component {
   state = {
-    query: localStorage.getItem("query") || "",
+    query: localStorage.getItem('query') || '',
   };
 
   search = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     const form = event.target;
     const formData = new FormData(form as HTMLFormElement);
-    localStorage.setItem("query", formData.get("query") as string);
+    localStorage.setItem('query', formData.get('query') as string);
     this.setState({
-      query: formData.get("query"),
+      query: formData.get('query'),
     });
   };
 

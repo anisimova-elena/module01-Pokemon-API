@@ -1,5 +1,5 @@
-import React from "react";
-import { IPokemon } from "../interfaces/Pokemon.ts";
+import React from 'react';
+import { IPokemon } from '../interfaces/Pokemon';
 
 interface Props {
   pokemons: IPokemon[];
