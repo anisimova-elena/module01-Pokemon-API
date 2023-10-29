@@ -23,22 +23,43 @@ export default class Pokemon extends React.Component<Props> {
               : this.pokemon.name}
           </h4>
           <p>
-            Abilities:
+            <b>Height:</b> {this.pokemon.height}
+          </p>
+          <p>
+            <b>Weight:</b> {this.pokemon.weight}
+          </p>
+          <p>
+            <b>Default:</b> {this.pokemon.is_default ? 'yes' : 'no'}
+          </p>
+          <p>
+            <b>Abilities</b>
             {this.pokemon.abilities?.length
-              ? this.pokemon.abilities.length
-              : 'none'}
+              ? ' (' + this.pokemon.abilities.length + '): '
+              : ' ' + 'none'}
+            {this.pokemon.abilities.reduce<string>(
+              (prevValue, currValue, currIndex) => {
+                let text = '';
+                if (currIndex) {
+                  text += ', ';
+                }
+                text += currValue.ability.name;
+                return prevValue + text;
+              },
+              ''
+            )}
           </p>
+
           <p>
-            Forms:
+            <b>Forms:</b>
             {this.pokemon.forms?.length
-              ? this.pokemon.abilities.length
-              : 'none'}
+              ? ' ' + this.pokemon.abilities.length
+              : ' ' + 'none'}
           </p>
           <p>
-            Moves:
+            <b>Moves:</b>
             {this.pokemon.moves?.length
-              ? this.pokemon.abilities.length
-              : 'none'}
+              ? ' ' + this.pokemon.abilities.length
+              : ' ' + 'none'}
           </p>
         </div>
       </div>
